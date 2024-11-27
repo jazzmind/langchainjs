@@ -43,11 +43,17 @@ export const getModelNameForTiktoken = (modelName: string): TiktokenModel => {
     return "gpt-4o";
   }
 
+  if (modelName.startsWith("o1-")) {
+    return "o1";
+  }
+
   return modelName as TiktokenModel;
 };
 
 export const getEmbeddingContextSize = (modelName?: string): number => {
   switch (modelName) {
+    case "text-embedding-3-large":
+      return 8191;
     case "text-embedding-ada-002":
       return 8191;
     default:
@@ -57,6 +63,10 @@ export const getEmbeddingContextSize = (modelName?: string): number => {
 
 export const getModelContextSize = (modelName: string): number => {
   switch (getModelNameForTiktoken(modelName)) {
+    case "o1":
+      return 128000;
+    case "gpt-4o":
+      return 128000;
     case "gpt-3.5-turbo-16k":
       return 16384;
     case "gpt-3.5-turbo":
